@@ -32,8 +32,7 @@ abstract class Ryukomik : KeiSource() {
 
     override fun OkHttpClient.Builder.configureClient(): OkHttpClient.Builder = rateLimit(3)
 
-    override fun Headers.Builder.configureHeaders(): Headers.Builder =
-        set("Accept-Language", "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7")
+    override fun Headers.Builder.configureHeaders(): Headers.Builder = set("Accept-Language", "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7")
 
     // ============================== Popular ===============================
     // Full catalog via the komiku list endpoint (the only /list endpoint);
@@ -75,10 +74,9 @@ abstract class Ryukomik : KeiSource() {
         return MangasPage(mangas, false)
     }
 
-    private fun searchUrl(source: String, query: String) =
-        "$apiUrl/$source/search".toHttpUrl().newBuilder()
-            .addQueryParameter("q", query)
-            .build()
+    private fun searchUrl(source: String, query: String) = "$apiUrl/$source/search".toHttpUrl().newBuilder()
+        .addQueryParameter("q", query)
+        .build()
 
     // ======================= Details and Chapters ==========================
     override suspend fun fetchMangaUpdate(
@@ -234,8 +232,7 @@ abstract class Ryukomik : KeiSource() {
     }
 
     // ============================= Utilities ==============================
-    private fun String.stringField(key: String): String? =
-        Regex("\"$key\":\"([^\"]*)\"").find(this)?.groupValues?.get(1)
+    private fun String.stringField(key: String): String? = Regex("\"$key\":\"([^\"*)\"").find(this)?.groupValues?.get(1)
 
     private fun String.unescapeJson(): String = replace("\\n", "\n").replace("\\\"", "\"").replace("\\\\", "\\")
 
