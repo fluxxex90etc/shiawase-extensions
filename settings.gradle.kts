@@ -26,7 +26,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Keiyoushi"
+rootProject.name = "Shiawase"
 
 /**
  * Add or remove modules to load as needed for local development here.
