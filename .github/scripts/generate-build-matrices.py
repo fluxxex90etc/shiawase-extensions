@@ -230,6 +230,7 @@ def get_all_lint_modules() -> list[str]:
     modules.extend(
         f":{directory}:{module.name}"
         for directory in ("lib", "lib-multisrc")
+        if Path(directory).is_dir()
         for module in Path(directory).iterdir()
         if (module / "build.gradle.kts").is_file()
     )
