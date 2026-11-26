@@ -97,6 +97,7 @@ jobs:
         run: |
           MODULES=(":core")
           for dir in lib lib-multisrc; do
+          [ -d "$dir" ] || continue
             for build_file in "$dir"/*/build.gradle.kts; do
               MODULES+=(":${dir}:$(basename "$(dirname "$build_file")")")
             done
