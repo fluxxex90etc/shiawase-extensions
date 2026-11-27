@@ -12,7 +12,6 @@ import keiyoushi.network.get
 import keiyoushi.network.rateLimit
 import keiyoushi.source.KeiSource
 import keiyoushi.source.SMangaUpdate
-import keiyoushi.utils.bodyString
 import keiyoushi.utils.parseAs
 import keiyoushi.utils.tryParseDate
 import okhttp3.Headers
@@ -85,7 +84,7 @@ abstract class Ryukomik : KeiSource() {
         fetchDetails: Boolean,
         fetchChapters: Boolean,
     ): SMangaUpdate {
-        val html = client.get(baseUrl + manga.url, Fetch.DOCUMENT).bodyString()
+        val html = client.get(baseUrl + manga.url, Fetch.DOCUMENT).body.string()
         return SMangaUpdate(
             manga = parseDetails(html, manga),
             chapters = parseChapters(html, manga.url),
@@ -98,7 +97,7 @@ abstract class Ryukomik : KeiSource() {
         val source = url.pathSegments.getOrNull(1)?.takeIf { it.isNotEmpty() } ?: return null
         val slug = url.pathSegments.getOrNull(2)?.takeIf { it.isNotEmpty() } ?: return null
         val targetUrl = "$baseUrl/komik/$source/$slug"
-        val html = client.get(targetUrl, Fetch.DOCUMENT).bodyString()
+        val html = client.get(targetUrl, Fetch.DOCUMENT).body.string()
         val manga = SManga.create().apply { setUrlWithoutDomain(targetUrl) }
         return parseDetails(html, manga)
     }
@@ -212,7 +211,7 @@ abstract class Ryukomik : KeiSource() {
     // "images":["https://...","https://..."].
     override suspend fun getPageList(chapter: SChapter): List<Page> {
         val chapterUrl = baseUrl + chapter.url
-        val html = client.get(chapterUrl, Fetch.DOCUMENT).bodyString().replace("\\\"", "\"")
+        val html = client.get(chapterUrl, Fetch.DOCUMENT).body.string().replace("\\\"", "\"")
         val start = html.indexOf("\"images\":[")
         if (start < 0) return emptyList()
         val end = html.indexOf("]", start)
